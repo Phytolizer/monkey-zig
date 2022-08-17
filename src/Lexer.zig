@@ -27,6 +27,11 @@ pub fn init(allocator: Allocator, input: []const u8) !Self {
 fn fillKeywords(self: *Self) !void {
     try self.keywords.put("fn", .Function);
     try self.keywords.put("let", .Let);
+    try self.keywords.put("true", .True);
+    try self.keywords.put("false", .False);
+    try self.keywords.put("if", .If);
+    try self.keywords.put("else", .Else);
+    try self.keywords.put("return", .Return);
 }
 
 pub fn deinit(self: *Self) void {
@@ -212,6 +217,23 @@ test "nextToken" {
         Test.init(.Gt, ">"),
         Test.init(.Int, "5"),
         Test.init(.Semicolon, ";"),
+        Test.init(.If, "if"),
+        Test.init(.LParen, "("),
+        Test.init(.Int, "5"),
+        Test.init(.Lt, "<"),
+        Test.init(.Int, "10"),
+        Test.init(.RParen, ")"),
+        Test.init(.LBrace, "{"),
+        Test.init(.Return, "return"),
+        Test.init(.True, "true"),
+        Test.init(.Semicolon, ";"),
+        Test.init(.RBrace, "}"),
+        Test.init(.Else, "else"),
+        Test.init(.LBrace, "{"),
+        Test.init(.Return, "return"),
+        Test.init(.False, "false"),
+        Test.init(.Semicolon, ";"),
+        Test.init(.RBrace, "}"),
         Test.init(.Eof, ""),
     };
 

@@ -29,6 +29,11 @@ pub const Kind = enum {
 
     Function,
     Let,
+    True,
+    False,
+    If,
+    Else,
+    Return,
 
     pub fn toString(self: Kind) []const u8 {
         return switch (self) {
@@ -52,6 +57,11 @@ pub const Kind = enum {
             .RBrace => "}",
             .Function => "FUNCTION",
             .Let => "LET",
+            .True => "TRUE",
+            .False => "FALSE",
+            .If => "IF",
+            .Else => "ELSE",
+            .Return => "RETURN",
         };
     }
 };
