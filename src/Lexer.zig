@@ -98,6 +98,24 @@ pub fn nextToken(self: *Self) !Token {
         '+' => {
             tok = try Token.init(self.allocator, .Plus, &.{self.ch});
         },
+        '-' => {
+            tok = try Token.init(self.allocator, .Minus, &.{self.ch});
+        },
+        '!' => {
+            tok = try Token.init(self.allocator, .Bang, &.{self.ch});
+        },
+        '*' => {
+            tok = try Token.init(self.allocator, .Asterisk, &.{self.ch});
+        },
+        '/' => {
+            tok = try Token.init(self.allocator, .Slash, &.{self.ch});
+        },
+        '<' => {
+            tok = try Token.init(self.allocator, .Lt, &.{self.ch});
+        },
+        '>' => {
+            tok = try Token.init(self.allocator, .Gt, &.{self.ch});
+        },
         '{' => {
             tok = try Token.init(self.allocator, .LBrace, &.{self.ch});
         },
@@ -182,6 +200,18 @@ test "nextToken" {
         Test.init(.Ident, "ten"),
         Test.init(.RParen, ")"),
         Test.init(.Semicolon, ";"),
+        Test.init(.Bang, "!"),
+        Test.init(.Minus, "-"),
+        Test.init(.Slash, "/"),
+        Test.init(.Asterisk, "*"),
+        Test.init(.Int, "5"),
+        Test.init(.Semicolon, ";"),
+        Test.init(.Int, "5"),
+        Test.init(.Lt, "<"),
+        Test.init(.Int, "10"),
+        Test.init(.Gt, ">"),
+        Test.init(.Int, "5"),
+        Test.init(.Semicolon, ";"),
         Test.init(.Eof, ""),
     };
 
@@ -192,11 +222,11 @@ test "nextToken" {
         const tok = try l.nextToken();
         defer tok.deinit();
         tt.testToken(tok) catch {
-            std.debug.print("Expected '{s} ({s})', got '{s} ({s})'\n", .{
+            std.debug.print("Expected '{s}' ({s}), got '{s}' ({s})\n", .{
                 tt.expectedLiteral,
-                @tagName(tt.expectedKind),
+                tt.expectedKind.toString(),
                 tok.literal,
-                @tagName(tok.kind),
+                tok.kind.toString(),
             });
             return error.TokenMismatch;
         };

@@ -11,6 +11,13 @@ pub const Kind = enum {
 
     Assign,
     Plus,
+    Minus,
+    Bang,
+    Asterisk,
+    Slash,
+
+    Lt,
+    Gt,
 
     Comma,
     Semicolon,
@@ -31,6 +38,12 @@ pub const Kind = enum {
             .Int => "INT",
             .Assign => "=",
             .Plus => "+",
+            .Minus => "-",
+            .Bang => "!",
+            .Asterisk => "*",
+            .Slash => "/",
+            .Lt => "<",
+            .Gt => ">",
             .Comma => ",",
             .Semicolon => ";",
             .LParen => "(",
