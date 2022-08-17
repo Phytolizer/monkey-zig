@@ -1,0 +1,15 @@
+pkgs:
+  monkey:
+    version: 0.0.0
+    license: GPL-3.0
+    source_url: "https://github.com/Phytolizer/monkey-zig"
+    root: src/main.zig
+    files:
+      README.md
+      LICENSE
+deps:
+  zigwin32:
+    git:
+      url: "https://github.com/marlersoft/zigwin32.git"
+      ref: 2b40704fbc2c9fbdb6f31acbc48684b6b98c15e3
+      root: win32.zig
