@@ -4,10 +4,10 @@ const win32 = if (builtin.os.tag == .windows)
     @import("zigwin32")
 else
     struct {};
-const system = if (builtin.os.tag != .windows)
-    @import("unix.zig")
+const system = if (builtin.os.tag == .windows)
+    struct {}
 else
-    struct {};
+    @import("unix.zig");
 const Allocator = std.mem.Allocator;
 
 pub fn currentUser(allocator: Allocator) ![]u8 {
