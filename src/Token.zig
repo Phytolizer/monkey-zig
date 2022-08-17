@@ -88,3 +88,15 @@ pub fn init(allocator: Allocator, kind: Kind, literal: []const u8) !Self {
 pub fn deinit(self: *const Self) void {
     self.allocator.free(self.literal);
 }
+
+pub fn format(
+    self: Self,
+    comptime fmt: []const u8,
+    options: std.fmt.FormatOptions,
+    writer: anytype,
+) !void {
+    _ = fmt;
+    _ = options;
+
+    try writer.print("{{Type:{s} Literal:{s}}}", .{ self.kind.toString(), self.literal });
+}

@@ -28,7 +28,7 @@ pub fn start(comptime Reader: type, reader: Reader, comptime Writer: type, write
             if (token.kind == .Eof) {
                 break;
             }
-            try writer.print("{any}\n", .{token});
+            try writer.print("{s}\n", .{token});
         }
     }
 }
