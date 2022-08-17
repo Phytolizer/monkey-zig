@@ -11,7 +11,6 @@ else
 const Allocator = std.mem.Allocator;
 
 pub fn currentUser(allocator: Allocator) ![]u8 {
-    _ = allocator;
     switch (builtin.os.tag) {
         .windows => {
             var size: u32 = 0;
