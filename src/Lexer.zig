@@ -38,12 +38,15 @@ pub fn deinit(self: *Self) void {
     self.keywords.deinit();
 }
 
+fn peekChar(self: *const Self) u8 {
+    return if (self.readPosition >= self.input.len)
+        0
+    else
+        self.input[self.readPosition];
+}
+
 fn readChar(self: *Self) void {
-    if (self.readPosition >= self.input.len) {
-        self.ch = 0;
-    } else {
-        self.ch = self.input[self.readPosition];
-    }
+    self.ch = self.peekChar();
     self.position = self.readPosition;
     self.readPosition += 1;
 }
@@ -86,7 +89,13 @@ pub fn nextToken(self: *Self) !Token {
 
     switch (self.ch) {
         '=' => {
-            tok = try Token.init(self.allocator, .Assign, &.{self.ch});
+            if (self.peekChar() == '=') {
+                const ch = self.ch;
+                self.readChar();
+                tok = try Token.init(self.allocator, .Eq, &.{ ch, self.ch });
+            } else {
+                tok = try Token.init(self.allocator, .Assign, &.{self.ch});
+            }
         },
         ';' => {
             tok = try Token.init(self.allocator, .Semicolon, &.{self.ch});
@@ -107,7 +116,13 @@ pub fn nextToken(self: *Self) !Token {
             tok = try Token.init(self.allocator, .Minus, &.{self.ch});
         },
         '!' => {
-            tok = try Token.init(self.allocator, .Bang, &.{self.ch});
+            if (self.peekChar() == '=') {
+                const ch = self.ch;
+                self.readChar();
+                tok = try Token.init(self.allocator, .NotEq, &.{ ch, self.ch });
+            } else {
+                tok = try Token.init(self.allocator, .Bang, &.{self.ch});
+            }
         },
         '*' => {
             tok = try Token.init(self.allocator, .Asterisk, &.{self.ch});
@@ -234,6 +249,14 @@ test "nextToken" {
         Test.init(.False, "false"),
         Test.init(.Semicolon, ";"),
         Test.init(.RBrace, "}"),
+        Test.init(.Int, "10"),
+        Test.init(.Eq, "=="),
+        Test.init(.Int, "10"),
+        Test.init(.Semicolon, ";"),
+        Test.init(.Int, "10"),
+        Test.init(.NotEq, "!="),
+        Test.init(.Int, "9"),
+        Test.init(.Semicolon, ";"),
         Test.init(.Eof, ""),
     };
 

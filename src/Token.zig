@@ -19,6 +19,9 @@ pub const Kind = enum {
     Lt,
     Gt,
 
+    Eq,
+    NotEq,
+
     Comma,
     Semicolon,
 
@@ -49,6 +52,8 @@ pub const Kind = enum {
             .Slash => "/",
             .Lt => "<",
             .Gt => ">",
+            .Eq => "==",
+            .NotEq => "!=",
             .Comma => ",",
             .Semicolon => ";",
             .LParen => "(",
