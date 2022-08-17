@@ -192,7 +192,12 @@ test "nextToken" {
         const tok = try l.nextToken();
         defer tok.deinit();
         tt.testToken(tok) catch {
-            std.debug.print("Expected '{s}', got '{s}'\n", .{ tt.expectedLiteral, tok.literal });
+            std.debug.print("Expected '{s} ({s})', got '{s} ({s})'\n", .{
+                tt.expectedLiteral,
+                @tagName(tt.expectedKind),
+                tok.literal,
+                @tagName(tok.kind),
+            });
             return error.TokenMismatch;
         };
     }
