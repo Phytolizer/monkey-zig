@@ -5,7 +5,8 @@ const Lexer = @import("Lexer.zig");
 const prompt = ">> ";
 
 pub fn start(comptime Reader: type, reader: Reader, comptime Writer: type, writer: Writer) !void {
-    const gpAllocator = std.heap.GeneralPurposeAllocator(.{}){};
+    var gpAllocator = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpAllocator.detectLeaks();
     const allocator = gpAllocator.backing_allocator;
     var scanner = std.io.bufferedReader(reader);
     const scannerReader = scanner.reader();
